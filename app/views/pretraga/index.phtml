@@ -13,10 +13,24 @@ use Phalcon\Tag;
 
 
 <script type="text/javascript">
+   function bojaTeksta(tekst) {
+        var sadrzaj = "#"+tekst;
+        
+        $(sadrzaj).on("mouseenter", ".sadr1", function(){
+        $(this).css('color', 'rgb(189,15,15)');
+     });
+     
+      $(sadrzaj).on("mouseleave", ".sadr1", function(){
+        $(this).css('color', 'rgb(111,111,200)');
+     });
+   
+   };
+    
    
     $(document).ready(function(){
       var opcija=1;
       $(document).tooltip();
+      $("#mogucnosti").val("1");
       $("#mogucnosti").change(function(){
         
       var n = $(this).val();
@@ -24,16 +38,40 @@ use Phalcon\Tag;
       switch (n) {
         case '1':
             $("#2").fadeOut();
+            $("#3").fadeOut();
+            $("#4").fadeOut();
             $("#1").fadeIn();
             $("#loader").empty();
             $("#artupall").fadeOut();
+            $("#paketi").fadeOut();
             $("#loader").attr('title', '');
             break;
         case '2':
             $("#1").fadeOut();
+            $("#3").fadeOut();
+            $("#4").fadeOut();
             $("#2").fadeIn();
             $("#loader").empty();
             $("#artupall").fadeOut();
+            $("#paketi").fadeOut();
+            break;
+        case '3':
+            $("#1").fadeOut();
+            $("#2").fadeOut();
+            $("#4").fadeOut();
+            $("#3").fadeIn();
+            $("#loader").empty();
+            $("#artupall").fadeOut();
+            $("#paketi").fadeOut();
+            break;
+        case '4':
+            $("#1").fadeOut();
+            $("#2").fadeOut();
+            $("#3").fadeOut();
+            $("#4").fadeIn();
+            $("#loader").empty();
+            $("#artupall").fadeOut();
+            $("#paketi").fadeOut();
       }
       
       });
@@ -46,6 +84,12 @@ use Phalcon\Tag;
       var sCode = new Array();
       var rCode = new Array();
       var gsCode = new Array();
+      var pCode = new Array();
+      var desc = new Array();
+      var lotnum = new Array();
+      var iType = new Array();
+      var uNum = new Array();
+      var coCode = new Array();
       // ajax poziv za prikupljanje svih Shipment Numbera iz baze
       $.ajax({
         url: '<?php echo  $this->url->get("pretraga/getShipmentNumber");?>',
@@ -137,19 +181,161 @@ use Phalcon\Tag;
         }
       
       });
+         
+    
+         // dobavljanje product_Codova za artupal autocomplete
+         $.ajax({
+        url: '<?php echo  $this->url->get("pretraga/getProductCode");?>',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            if (data==null) {
+                return;
+            }
+            for (i=0; i<data.length; i++) {
+                pCode.push(data[i]);
+            }
+            
+            $('#prodcode').autocomplete({
+                source: pCode
+                });
+        },
+        error: function(){
+            alert("GRESKA: Neuspjesan JSON poziv.");
+        }
       
+      });
+         
+    // dobavljanje Lot brojeva za artupal autocomplete
+         $.ajax({
+        url: '<?php echo  $this->url->get("pretraga/getLotNumber");?>',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            if (data==null) {
+                return;
+            }
+            for (i=0; i<data.length; i++) {
+                lotnum.push(data[i]);
+            }
+            
+            $('#lotnum').autocomplete({
+                source: lotnum
+                });
+        },
+        error: function(){
+            alert("GRESKA: Neuspjesan JSON poziv.");
+        }
+      
+      });
+         
+         
+     // dobavljanje Description za artupal autocomplete
+         $.ajax({
+        url: '<?php echo  $this->url->get("pretraga/getDescription");?>',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            if (data==null) {
+                return;
+            }
+            for (i=0; i<data.length; i++) {
+                desc.push(data[i]);
+            }
+            
+            $('#desc').autocomplete({
+                source: desc
+                });
+        },
+        error: function(){
+            alert("GRESKA: Neuspjesan JSON poziv.");
+        }
+      
+      });
+         
+    //za formular Paketa
+        $.ajax({
+        url: '<?php echo  $this->url->get("pretraga/getItemNumber");?>',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            if (data==null) {
+                return;
+            }
+            for (i=0; i<data.length; i++) {
+                iType.push(data[i]);
+            }
+            
+            $('#itemnum').autocomplete({
+                source: iType
+                });
+        },
+        error: function(){
+             alert("GRESKA: Neuspjesan JSON poziv.");
+        }
+      
+      });
+        
+            $.ajax({
+        url: '<?php echo  $this->url->get("pretraga/getUniqueNumber");?>',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            if (data==null) {
+                return;
+            }
+            for (i=0; i<data.length; i++) {
+                uNum.push(data[i]);
+            }
+            
+            $('#unum').autocomplete({
+                source: uNum
+                });
+        },
+        error: function(){
+             alert("GRESKA: Neuspjesan JSON poziv.");
+        }
+      
+      });
+            
+        $.ajax({
+        url: '<?php echo  $this->url->get("pretraga/getCountryCode");?>',
+        type: 'POST',
+        dataType: 'json',
+        success: function(data){
+            if (data==null) {
+                return;
+            }
+            for (i=0; i<data.length; i++) {
+                coCode.push(data[i]);
+            }
+            
+            $('#cocode').autocomplete({
+                source: coCode
+                });
+        },
+        error: function(){
+             alert("GRESKA: Neuspjesan JSON poziv.");
+        }
+      
+      });
       
        
         $("#loader").fadeIn('600');
         $("#loader").append("<p id='poruka1'>Ovdje idu rezultati vase pretrage...</p>");
         
         
-      
+      rezultat = null;
+      artupal = 'prazan';
+      paket = 'prazan';
+      brpalete = 'prazan';
+      brartupala = 'prazan';
 
      $('.search').click(function(){
-         
+        $("#artupall").fadeOut();
+        $("#paketi").fadeOut();
         var visina = $(document).height();
-        $(document).scrollTop(visina*0.4);  
+        $(document).scrollTop(380);  
           if (opcija==1) {
             //$("#loader").addClass('loading');
             $("#loader").empty();
@@ -172,6 +358,7 @@ use Phalcon\Tag;
                     
                 }
                 else{
+                  rezultat=data;
                  setTimeout(function(){
                 //$("#loader").removeClass('loading');
                 $("#loader").empty();
@@ -217,6 +404,7 @@ use Phalcon\Tag;
                     
                 }
                 else{
+                    rezultat=data;
                  setTimeout(function(){
                 //$("#loader").removeClass('loading');
                 $("#loader").empty();
@@ -244,6 +432,111 @@ use Phalcon\Tag;
            $("#itype").val();
             
           }
+          
+          else if (opcija == '3') {
+            var prodcode = $("#prodcode").val();
+            var desc = $("#desc").val();
+            var lotnum = $("#lotnum").val();
+            //alert("POdaci: " + gsCode + ", " + iType);
+            $("#loader").empty();
+            $("#loader").append("<div id='lltest'> <div>");
+            // poziv za dobavljanje informacija o paletama
+             $.ajax({
+            url: '<?php echo  $this->url->get("pretraga/getArtupal");?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {prodcode:prodcode, desc:desc, lotnum:lotnum},
+            success: function(data){
+                if (data==null) {
+                    $("#loader").empty();
+                    $("#loader").append("<div id='greska'> </div>");
+                    
+                }
+                else{
+                    rezultat=data;
+                 setTimeout(function(){
+                //$("#loader").removeClass('loading');
+                $("#loader").empty();
+                $("#loader").append("<p id='naslov'>Rezultat pretrage: Order/Artupal</p><hr />");
+                $("#loader").append("<table id='tab' border='1'/>");
+                $("#loader table").append("<tr><th class='zag'>Id Artupal</th><<th class='zag'>Product_Code</th><th class='zag'>Description</th><th class='zag'>Lot_Number</th><th class='zag'>Quantity</th>"+
+                                            "<th class='zag'>Unit_Of_Measure</th><th class='zag'>Count_Of_Units</th>"+"</tr>");
+                
+                for (i=0; i<data.length; i++) {
+                    //$("#loader").append("<p class='izlaz'>Ime: " + data[i].ime + "</p>" + "<p class='izlaz'>Prezime: " + data[i].prezime + "<br />");
+                    
+                    $("#loader table").append("<tr><td class='sadr1' id='artupal'>" + data[i].idArtupal + "<td class='sadr'>" + data[i].Product_Code + "</td><td class='sadr'>" + data[i].Description + "</td><td class='sadr'>" + data[i].Lot_Number + "</td><td class='sadr'>" + data[i].Quantity + "</td>"+
+                                                "<td class='sadr'>" + data[i].Unit_Of_Measure + "<td class='sadr'>" + data[i].Count_Of_Units + "</td>"+"</td>"+"</tr>");   
+                
+                }
+                },600);
+                
+            }
+                
+            },
+            error: function(){
+                alert("greska...");
+            }
+          });
+           
+           $("#prodcode").val("");
+           $("#desc").val("");
+           $("#lotnum").val("");
+          }
+          
+          
+              else if (opcija == '4') {
+            var itemnum = $("#itemnum").val();
+            var unum = $("#unum").val();
+            var cocode = $("#cocode").val();
+            //alert("POdaci: " + gsCode + ", " + iType);
+            $("#loader").empty();
+            $("#loader").append("<div id='lltest'> <div>");
+            // poziv za dobavljanje informacija o paletama
+             $.ajax({
+            url: '<?php echo  $this->url->get("pretraga/getPaketList");?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {itemnum:itemnum, unum:unum, cocode:cocode},
+            success: function(data){
+                if (data==null) {
+                    $("#loader").empty();
+                    $("#loader").append("<div id='greska'> </div>");
+                    
+                }
+                else{
+                    rezultat=data;
+                 setTimeout(function(){
+                //$("#loader").removeClass('loading');
+                $("#loader").empty();
+                $("#loader").append("<p id='naslov'>Rezultat pretrage: Order/Paketi</p><hr />");
+                $("#loader").append("<table id='tab' border='1'/>");
+                $("#loader table").append("<tr><th class='zag'>Id Paket</th><th class='zag'>Item_Number</th><th class='zag'>Unique_Number</th><th class='zag'>Production_Date</th><th class='zag'>Country_Code</th>"+
+                                            "<th class='zag'>Site_Code</th></tr>");
+                
+                for (i=0; i<data.length; i++) {
+                    //$("#loader").append("<p class='izlaz'>Ime: " + data[i].ime + "</p>" + "<p class='izlaz'>Prezime: " + data[i].prezime + "<br />");
+                    
+                    $("#loader table").append("<tr><td id='idpaket' class='sadr1'>" + data[i].idPaketi + "</td><td class='sadr'>" + data[i].Item_Number + "</td><td class='sadr'>" + data[i].Unique_Number + "</td><td class='sadr'>" + data[i].Production_Date+ "</td><td class='sadr'>" + data[i].Country_Code + "</td>"+
+                                                "<td class='sadr'>" + data[i].Site_Code +"</tr>");   
+                
+                }
+                },600);
+                
+            }
+                
+            },
+            error: function(){
+                alert("greska...");
+            }
+          });
+           
+           $("#itemnum").val("");
+           $("#unum").val("");
+           $("#cocode").val("");
+          }
+          
+          
            $('#snumber').val("");
            $('#scode').val("");
            $('#rcode').val("");
@@ -261,12 +554,71 @@ use Phalcon\Tag;
         $(this).css('color', 'rgb(111,111,200)');
      });
       
+      $("#loader").on("click", "#artupal", function(){
+        var idArtupal = $(this).text();
+        brartupala = idArtupal;
+        //alert("Vrijednost je: " + idArtupal);
+           
+        $("#paketi").fadeIn("400");
+        //var pozicija = $(document).scrollTop();
+        var visina = $(document).height();
+        $(document).scrollTop(380*2 + 150);
+        
+            $("#paketi").empty();
+            $("#paketi").append("<div id='lltest'> <div>");
+            // poziv za dobavljanje informacija o paletama
+             $.ajax({
+            url: '<?php echo  $this->url->get("pretraga/getPaketiforAtrupal");?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {idArtupal:idArtupal},
+            success: function(data){
+                if (data==null) {
+                    $("#paketi").empty();
+                    $("#paketi").append("<div id='greska'> </div>");
+                    
+                }
+                else{
+                paket = data;
+                 setTimeout(function(){
+                //$("#loader").removeClass('loading');
+                $("#paketi").empty();
+                $("#paketi").append("<p id='naslov'>Rezultat pretrage: Order/Artupal/Paketi</p><hr />");
+                $("#paketi").append("<table id='tab' border='1'/>");
+                $("#paketi table").append("<tr><th class='zag'>Id Paket</th><th class='zag'>Item_Number</th><th class='zag'>Unique_Number</th><th class='zag'>Production_Date</th><th class='zag'>Country_Code</th>"+
+                                            "<th class='zag'>Site_Code</th></tr>");
+                
+                for (i=0; i<data.length; i++) {
+                    //$("#loader").append("<p class='izlaz'>Ime: " + data[i].ime + "</p>" + "<p class='izlaz'>Prezime: " + data[i].prezime + "<br />");
+                    
+                    $("#paketi table").append("<tr><td id='idpaket' class='sadr1'>" + data[i].idPaketi + "</td><td class='sadr'>" + data[i].Item_Number + "</td><td class='sadr'>" + data[i].Unique_Number + "</td><td class='sadr'>" + data[i].Production_Date+ "</td><td class='sadr'>" + data[i].Country_Code + "</td>"+
+                                                "<td class='sadr'>" + data[i].Site_Code +"</tr>");   
+                
+                }
+                },600);
+                
+            }
+                
+            },
+            error: function(){
+                alert("greska...");
+            }
+          });
+        
+        
+        
+      });
+      
     $("#loader").on("click", "#palet", function(){
         var idPalete = $(this).text();
+        brpalete = idPalete;
+        //alert("Vrijednost: " + idPalete);
+        $("#paketi").empty();
+        $("#paketi").fadeOut();
         $("#artupall").fadeIn("400");
         //var pozicija = $(document).scrollTop();
         var visina = $(document).height();
-        $(document).scrollTop(visina*0.8);
+        $(document).scrollTop(380*2 + 150);
         
             $("#artupall").empty();
             $("#artupall").append("<div id='lltest'> <div>");
@@ -283,18 +635,19 @@ use Phalcon\Tag;
                     
                 }
                 else{
+                    artupal=data;
                  setTimeout(function(){
                 //$("#loader").removeClass('loading');
                 $("#artupall").empty();
                 $("#artupall").append("<p id='naslov'>Rezultat pretrage: Order/Palete/Artupal</p><hr />");
                 $("#artupall").append("<table id='tab' border='1'/>");
-                $("#artupall table").append("<tr><th class='zag'>Product_Code</th><th class='zag'>Description</th><th class='zag'>Lot_Number</th><th class='zag'>Quantity</th>"+
+                $("#artupall table").append("<tr><th class='zag'>Id Artupal</th><th class='zag'>Product_Code</th><th class='zag'>Description</th><th class='zag'>Lot_Number</th><th class='zag'>Quantity</th>"+
                                             "<th class='zag'>Unit_Of_Measure</th><th class='zag'>Count_Of_Units</th>"+"</tr>");
                 
                 for (i=0; i<data.length; i++) {
                     //$("#loader").append("<p class='izlaz'>Ime: " + data[i].ime + "</p>" + "<p class='izlaz'>Prezime: " + data[i].prezime + "<br />");
                     
-                    $("#artupall table").append("<tr><td class='sadr'>" + data[i].Product_Code + "</td><td class='sadr'>" + data[i].Description + "</td><td class='sadr'>" + data[i].Lot_Number + "</td><td class='sadr'>" + data[i].Quantity + "</td>"+
+                    $("#artupall table").append("<tr><td id='idartupal' class='sadr1'>" + data[i].idArtupal + "</td><td class='sadr'>" + data[i].Product_Code + "</td><td class='sadr'>" + data[i].Description + "</td><td class='sadr'>" + data[i].Lot_Number + "</td><td class='sadr'>" + data[i].Quantity + "</td>"+
                                                 "<td class='sadr'>" + data[i].Unit_Of_Measure + "<td class='sadr'>" + data[i].Count_Of_Units + "</td>"+"</td>"+"</tr>");   
                 
                 }
@@ -311,13 +664,93 @@ use Phalcon\Tag;
         
      });
     
+    $("#artupall").on("click", "#idartupal", function(){
+       var idArtupal = $(this).text();
+       //alert("Vrijednost je: " + idArtupal);
+       brartupala = idArtupal;
+        $("#paketi").fadeIn("400");
+        //var pozicija = $(document).scrollTop();
+        var visina = $(document).height();
+        $(document).scrollTop(660*2);
+        
+            $("#paketi").empty();
+            $("#paketi").append("<div id='lltest'> <div>");
+            // poziv za dobavljanje informacija o paletama
+             $.ajax({
+            url: '<?php echo  $this->url->get("pretraga/getPaketiforAtrupal");?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {idArtupal:idArtupal},
+            success: function(data){
+                if (data==null) {
+                    $("#paketi").empty();
+                    $("#paketi").append("<div id='greska'> </div>");
+                    
+                }
+                else{
+                 paket = data;
+                 setTimeout(function(){
+                //$("#loader").removeClass('loading');
+                $("#paketi").empty();
+                $("#paketi").append("<p id='naslov'>Rezultat pretrage: Order/Palete/Artupal/Paketi</p><hr />");
+                $("#paketi").append("<table id='tab' border='1'/>");
+                $("#paketi table").append("<tr><th class='zag'>Id Paket</th><th class='zag'>Item_Number</th><th class='zag'>Unique_Number</th><th class='zag'>Production_Date</th><th class='zag'>Country_Code</th>"+
+                                            "<th class='zag'>Site_Code</th></tr>");
+                
+                for (i=0; i<data.length; i++) {
+                    //$("#loader").append("<p class='izlaz'>Ime: " + data[i].ime + "</p>" + "<p class='izlaz'>Prezime: " + data[i].prezime + "<br />");
+                    
+                    $("#paketi table").append("<tr><td id='idpaket' class='sadr1'>" + data[i].idPaketi + "</td><td class='sadr'>" + data[i].Item_Number + "</td><td class='sadr'>" + data[i].Unique_Number + "</td><td class='sadr'>" + data[i].Production_Date+ "</td><td class='sadr'>" + data[i].Country_Code + "</td>"+
+                                                "<td class='sadr'>" + data[i].Site_Code +"</tr>");   
+                
+                }
+                },600);
+                
+            }
+                
+            },
+            error: function(){
+                alert("greska...");
+            }
+          });
+        
+    });
+    
+    bojaTeksta("artupall");
+    
+    $("#pdf").click(function(){
+        if (rezultat==null) {
+            alert("GRESKA : Nema podataka za export!")
+        }
+        else{
+            $.ajax({
+             url: '<?php echo  $this->url->get("pretraga/beze");?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {opcija:opcija, rezultat:rezultat, artupal:artupal, brpalete:brpalete, paket:paket, brartupala:brartupala},
+            success: function(data){
+            
+                var link = <?php echo $this->url->get();?>;
+                var putanja = link + "public/" + data;
+                window.location.href=putanja;
+            
+    
+                },
+            error: function(){
+                alert("GRESKA: Neuspjesan JSON zahtjev.");
+            }
+            });
+       
+        }
+    });
+    
     });
     
    
     
 </script>
 
-
+<div id="menu">
 <p id="op">Parametar pretrage: <select id="mogucnosti">
     <option value="1" selected="1">Packing list</option>
     <option value="2">Palete</option>
@@ -326,7 +759,7 @@ use Phalcon\Tag;
     <option value="5">Micro</option>
     <option value="6">Jedinicno</option>
 </select></p>
-
+</div>
 <div id="1" class="wrapper">
     
     <p id="nesto">Dobro dosli u panel za pretragu.</p>
@@ -382,9 +815,81 @@ use Phalcon\Tag;
  </div>
  
   </div>
+
+<div id="3" class="wrapper" style="display:none">
+ <div class="steps">
+    <fieldset class="step">
+        <legend>Search formular - Artupal</legend>
+ <p>
+    <label for="name">Product Code</label>
+    <?php $opt = array('name', 'id'=>'prodcode', 'size'=>'20');
+      $buttopt = array('Show', 'id'=>'dugme','class'=>'klasa');
+      $topt1 = array('surname', 'id'=>'desc', 'size'=>'20');
+      $topt2 = array('email', 'id'=>'lotnum', 'size'=>'20');
+    ?>
+    <?php echo Tag::textField($opt) ?>
+ </p>
+ <p>
+    <label for="surname">Description</label>
+    <?php echo Tag::textField($topt1) ?>
+   
+ </p>
+ <p>
+    <label for="email">Lot Number</label>
+     <?php echo Tag::textField($topt2) ?>
+ </p>
+ 
+<input type="image" title="Pretraga..." class="search" src="/pobjeda/public/img/pretraga.jpg"
+    </fieldset>
+ </div>
+ 
+  </div>
+
+
+<div id="4" class="wrapper" style="display:none">
+ <div class="steps">
+    <fieldset class="step">
+        <legend>Search formular - Paketi</legend>
+ <p>
+    <label for="name">Item Number</label>
+    <?php $opt = array('name', 'id'=>'itemnum', 'size'=>'20');
+      $buttopt = array('Show', 'id'=>'dugme','class'=>'klasa');
+      $topt1 = array('surname', 'id'=>'unum', 'size'=>'20');
+      $topt2 = array('email', 'id'=>'cocode', 'size'=>'20');
+    ?>
+    <?php echo Tag::textField($opt) ?>
+ </p>
+ <p>
+    <label for="surname">Unique Number</label>
+    <?php echo Tag::textField($topt1) ?>
+   
+ </p>
+ <p>
+    <label for="email">Country Code</label>
+     <?php echo Tag::textField($topt2) ?>
+ </p>
+ 
+<input type="image" title="Pretraga..." class="search" src="/pobjeda/public/img/pretraga.jpg"
+    </fieldset>
+ </div>
+ 
+  </div>
+
  
  <div id="loader">
  </div>
  
  <div id="artupall"></div>
+ <div id="paketi"></div>
+<div>
+    <table id="pdfexpo">
+        <tr>
+            <td class="exporti">Export: </td>
+            <td><input type="image" id="pdf" title="PDF" src="/pobjeda/public/img/pdflogo.gif"</td>
+        </tr>
+    </table>
+</div> 
+ 
+
+ 
  
