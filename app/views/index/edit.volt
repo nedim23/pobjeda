@@ -8,7 +8,7 @@
     <li class="pull-right">
         {{ submit_button("Save", "class": "btn btn-big btn-success") }}
     </li>
-</ul>
+</ul> 
 
 {{ content() }}
 
