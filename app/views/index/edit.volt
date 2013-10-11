@@ -9,7 +9,7 @@
         {{ submit_button("Save", "class": "btn btn-big btn-success") }}
     </li>
 </ul> 
-
+<!-- ovo je test -->
 {{ content() }}
 
 <div class="center scaffold">
