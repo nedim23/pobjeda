@@ -1,4 +1,3 @@
-
 <form method="post" autocomplete="off">
 
 <ul class="pager">
@@ -9,7 +8,7 @@
         {{ submit_button("Save", "class": "btn btn-big btn-success") }}
     </li>
 </ul> 
-<!-- ovo je test -->
+
 {{ content() }}
 
 <div class="center scaffold">
