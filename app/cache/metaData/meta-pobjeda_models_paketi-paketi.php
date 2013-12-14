@@ -1,0 +1,106 @@
+<?php return array (
+  0 => 
+  array (
+    0 => 'idPaketi',
+    1 => 'Item_Number',
+    2 => 'Item_Type',
+    3 => 'Unique_Number',
+    4 => 'Product_Code',
+    5 => 'Description',
+    6 => 'Production_Date',
+    7 => 'Quantity',
+    8 => 'Unit_Of_Measure',
+    9 => 'Count_Of_Units',
+    10 => 'Number_Of_Items',
+    11 => 'GS1_Code',
+    12 => 'Country_Code',
+    13 => 'Site_Code',
+    14 => 'Artupal',
+  ),
+  1 => 
+  array (
+    0 => 'idPaketi',
+  ),
+  2 => 
+  array (
+    0 => 'Item_Number',
+    1 => 'Item_Type',
+    2 => 'Unique_Number',
+    3 => 'Product_Code',
+    4 => 'Description',
+    5 => 'Production_Date',
+    6 => 'Quantity',
+    7 => 'Unit_Of_Measure',
+    8 => 'Count_Of_Units',
+    9 => 'Number_Of_Items',
+    10 => 'GS1_Code',
+    11 => 'Country_Code',
+    12 => 'Site_Code',
+    13 => 'Artupal',
+  ),
+  3 => 
+  array (
+    0 => 'idPaketi',
+    1 => 'Item_Number',
+    2 => 'Unique_Number',
+    3 => 'Product_Code',
+    4 => 'Description',
+    5 => 'Production_Date',
+    6 => 'Quantity',
+    7 => 'Unit_Of_Measure',
+    8 => 'Count_Of_Units',
+    9 => 'Number_Of_Items',
+    10 => 'Artupal',
+  ),
+  4 => 
+  array (
+    'idPaketi' => 0,
+    'Item_Number' => 6,
+    'Item_Type' => 2,
+    'Unique_Number' => 6,
+    'Product_Code' => 2,
+    'Description' => 6,
+    'Production_Date' => 4,
+    'Quantity' => 3,
+    'Unit_Of_Measure' => 2,
+    'Count_Of_Units' => 3,
+    'Number_Of_Items' => 0,
+    'GS1_Code' => 6,
+    'Country_Code' => 2,
+    'Site_Code' => 2,
+    'Artupal' => 0,
+  ),
+  5 => 
+  array (
+    'idPaketi' => true,
+    'Quantity' => true,
+    'Count_Of_Units' => true,
+    'Number_Of_Items' => true,
+    'Artupal' => true,
+  ),
+  8 => 'idPaketi',
+  9 => 
+  array (
+    'idPaketi' => 1,
+    'Item_Number' => 2,
+    'Item_Type' => 2,
+    'Unique_Number' => 2,
+    'Product_Code' => 2,
+    'Description' => 2,
+    'Production_Date' => 2,
+    'Quantity' => 32,
+    'Unit_Of_Measure' => 2,
+    'Count_Of_Units' => 32,
+    'Number_Of_Items' => 1,
+    'GS1_Code' => 2,
+    'Country_Code' => 2,
+    'Site_Code' => 2,
+    'Artupal' => 1,
+  ),
+  10 => 
+  array (
+  ),
+  11 => 
+  array (
+  ),
+); 

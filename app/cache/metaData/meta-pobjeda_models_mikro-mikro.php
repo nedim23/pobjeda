@@ -1,0 +1,107 @@
+<?php return array (
+  0 => 
+  array (
+    0 => 'idMikro',
+    1 => 'Item_Number',
+    2 => 'Item_Type',
+    3 => 'GS1_Code',
+    4 => 'Country_Code',
+    5 => 'Site_Code',
+    6 => 'Unique_Number',
+    7 => 'Product_Code',
+    8 => 'Description',
+    9 => 'Production_Date',
+    10 => 'Quantity',
+    11 => 'Unit_Of_Measure',
+    12 => 'Count_Of_Units',
+    13 => 'Number_Of_Items',
+    14 => 'Paketi',
+  ),
+  1 => 
+  array (
+    0 => 'idMikro',
+  ),
+  2 => 
+  array (
+    0 => 'Item_Number',
+    1 => 'Item_Type',
+    2 => 'GS1_Code',
+    3 => 'Country_Code',
+    4 => 'Site_Code',
+    5 => 'Unique_Number',
+    6 => 'Product_Code',
+    7 => 'Description',
+    8 => 'Production_Date',
+    9 => 'Quantity',
+    10 => 'Unit_Of_Measure',
+    11 => 'Count_Of_Units',
+    12 => 'Number_Of_Items',
+    13 => 'Paketi',
+  ),
+  3 => 
+  array (
+    0 => 'idMikro',
+    1 => 'Item_Number',
+    2 => 'GS1_Code',
+    3 => 'Country_Code',
+    4 => 'Site_Code',
+    5 => 'Unique_Number',
+    6 => 'Product_Code',
+    7 => 'Description',
+    8 => 'Production_Date',
+    9 => 'Quantity',
+    10 => 'Unit_Of_Measure',
+    11 => 'Count_Of_Units',
+    12 => 'Number_Of_Items',
+    13 => 'Paketi',
+  ),
+  4 => 
+  array (
+    'idMikro' => 0,
+    'Item_Number' => 6,
+    'Item_Type' => 2,
+    'GS1_Code' => 6,
+    'Country_Code' => 2,
+    'Site_Code' => 2,
+    'Unique_Number' => 6,
+    'Product_Code' => 2,
+    'Description' => 6,
+    'Production_Date' => 4,
+    'Quantity' => 6,
+    'Unit_Of_Measure' => 2,
+    'Count_Of_Units' => 6,
+    'Number_Of_Items' => 0,
+    'Paketi' => 0,
+  ),
+  5 => 
+  array (
+    'idMikro' => true,
+    'Number_Of_Items' => true,
+    'Paketi' => true,
+  ),
+  8 => 'idMikro',
+  9 => 
+  array (
+    'idMikro' => 1,
+    'Item_Number' => 2,
+    'Item_Type' => 2,
+    'GS1_Code' => 2,
+    'Country_Code' => 2,
+    'Site_Code' => 2,
+    'Unique_Number' => 2,
+    'Product_Code' => 2,
+    'Description' => 2,
+    'Production_Date' => 2,
+    'Quantity' => 2,
+    'Unit_Of_Measure' => 2,
+    'Count_Of_Units' => 2,
+    'Number_Of_Items' => 1,
+    'Paketi' => 1,
+  ),
+  10 => 
+  array (
+  ),
+  11 => 
+  array (
+  ),
+); 
